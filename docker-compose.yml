@@ -1,0 +1,30 @@
+services:
+  # identity-service
+  auth-db:
+    image: postgres:15
+    container_name: auth-db
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+
+  # restaurant-service
+  restaurant-db:
+    image: postgres:15
+    container_name: restaurant-db
+    environment:
+      POSTGRES_DB: restaurant_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    volumes:
+      - restaurant_data:/var/lib/postgresql/data
+
+volumes:
+  auth_data:
+  restaurant_data:
