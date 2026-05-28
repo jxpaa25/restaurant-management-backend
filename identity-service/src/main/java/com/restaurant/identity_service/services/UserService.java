@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.restaurant.identity_service.dto.AuthResponse;
 import com.restaurant.identity_service.dto.LoginRequest;
 import com.restaurant.identity_service.dto.UserRegistrationRequest;
+import com.restaurant.identity_service.models.CustomUserDetails;
 import com.restaurant.identity_service.models.Role;
 import com.restaurant.identity_service.models.User;
 import com.restaurant.identity_service.repositories.RoleRepository;
@@ -59,9 +60,13 @@ public class UserService {
         );
 
         if (authenticate.isAuthenticated()) {
-            User user = userRepository.findByUsername(request.getUsername())
-                            .orElseThrow(() -> new RuntimeException("User is not found."));
-            String token = jwtService.generateToken(request.getUsername());
+            CustomUserDetails userDetails = (CustomUserDetails) authenticate.getPrincipal();
+
+            String token = jwtService.generateToken(request.getUsername(), userDetails.getAuthorities());
+
+            User user = userRepository.findByUsername(userDetails.getUsername())
+                            .orElseThrow(() -> new RuntimeException("User is not found"));
+            
             return new AuthResponse(token, user.isFirstLogin());
         } else {
             throw new RuntimeException("Invalid credentials.");
