@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.restaurant.identity_service.dto.AuthResponse;
+import com.restaurant.identity_service.dto.ChangePasswordRequest;
 import com.restaurant.identity_service.dto.LoginRequest;
 import com.restaurant.identity_service.dto.UserRegistrationRequest;
 import com.restaurant.identity_service.services.UserService;
@@ -32,7 +34,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(userService.login(request));
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
+        return ResponseEntity.ok(userService.changePassword(request.getUsername(), request.getNewPassword()));
     }
 }

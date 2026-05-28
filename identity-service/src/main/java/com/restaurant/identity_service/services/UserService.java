@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.restaurant.identity_service.dto.AuthResponse;
 import com.restaurant.identity_service.dto.LoginRequest;
 import com.restaurant.identity_service.dto.UserRegistrationRequest;
 import com.restaurant.identity_service.models.Role;
@@ -52,15 +53,29 @@ public class UserService {
         return "User successfully created!";
     }
 
-    public String login(LoginRequest request) {
+    public AuthResponse login(LoginRequest request) {
         Authentication authenticate = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
         if (authenticate.isAuthenticated()) {
-            return jwtService.generateToken(request.getUsername());
+            User user = userRepository.findByUsername(request.getUsername())
+                            .orElseThrow(() -> new RuntimeException("User is not found."));
+            String token = jwtService.generateToken(request.getUsername());
+            return new AuthResponse(token, user.isFirstLogin());
         } else {
             throw new RuntimeException("Invalid credentials.");
         }
+    }
+
+    public String changePassword(String username, String newPassword) {
+        User user = userRepository.findByUsername(username)
+                        .orElseThrow(() -> new RuntimeException("User is not found."));
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setFirstLogin(false);
+        userRepository.save(user);
+
+        return "Password changed successfully.";
     }
 }
