@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,9 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
     
-    public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+    @Value("${rms.jwt.secret}")
+    private String secret;
+    
     public static final int EXPIRATION = 1000 * 60 * 60 * 24;
 
     public String generateToken(String userName, Collection<? extends GrantedAuthority> authorities) {
@@ -44,7 +47,7 @@ public class JwtService {
     }
 
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
