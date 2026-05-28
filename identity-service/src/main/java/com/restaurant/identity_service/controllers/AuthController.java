@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.restaurant.identity_service.dto.LoginRequest;
 import com.restaurant.identity_service.dto.UserRegistrationRequest;
 import com.restaurant.identity_service.services.UserService;
 
 import lombok.RequiredArgsConstructor;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,5 +29,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody UserRegistrationRequest request) {
         return ResponseEntity.ok(userService.registerUser(request));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(userService.login(request));
     }
 }

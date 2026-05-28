@@ -3,9 +3,13 @@ package com.restaurant.identity_service.services;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.restaurant.identity_service.dto.LoginRequest;
 import com.restaurant.identity_service.dto.UserRegistrationRequest;
 import com.restaurant.identity_service.models.Role;
 import com.restaurant.identity_service.models.User;
@@ -21,6 +25,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public String registerUser(UserRegistrationRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -44,5 +50,17 @@ public class UserService {
         userRepository.save(user);
 
         return "User successfully created!";
+    }
+
+    public String login(LoginRequest request) {
+        Authentication authenticate = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
+
+        if (authenticate.isAuthenticated()) {
+            return jwtService.generateToken(request.getUsername());
+        } else {
+            throw new RuntimeException("Invalid credentials.");
+        }
     }
 }
