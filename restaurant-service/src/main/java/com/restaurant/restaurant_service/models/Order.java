@@ -3,6 +3,8 @@ package com.restaurant.restaurant_service.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.restaurant.restaurant_service.types.OrderStatus;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -39,8 +41,4 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.PENDING;
-}
-
-enum OrderStatus {
-    PENDING, COMPLETED, CANCELLED
 }

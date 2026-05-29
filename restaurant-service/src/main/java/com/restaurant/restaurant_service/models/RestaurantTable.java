@@ -1,7 +1,11 @@
 package com.restaurant.restaurant_service.models;
 
+import com.restaurant.restaurant_service.types.TableStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,5 +27,6 @@ public class RestaurantTable {
     @Column(nullable = false, unique = true)
     private Integer tableNumber;
 
-    private boolean isFree;
+    @Enumerated(EnumType.STRING)
+    private TableStatus status = TableStatus.FREE;
 }
