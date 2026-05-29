@@ -6,6 +6,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ChangePasswordRequest {
-    private String username;
     private String newPassword;
 }

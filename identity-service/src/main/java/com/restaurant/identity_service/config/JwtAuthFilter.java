@@ -33,23 +33,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = null;
         String username = null;
 
-        // 1. Proveri da li Header postoji i počinje sa Bearer
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            username = jwtService.extractUsername(token); // Ovu metodu ćemo dodati u JwtService
+            username = jwtService.extractUsername(token);
         }
 
-        // 2. Ako imamo username i korisnik nije već autentifikovan u ovoj sesiji
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             
-            // 3. Validacija tokena
             if (jwtService.isTokenValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 
-                // 4. "Zaključaj" korisnika u Security Context
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }

@@ -1,6 +1,7 @@
 package com.restaurant.identity_service.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +40,11 @@ public class AuthController {
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
-        return ResponseEntity.ok(userService.changePassword(request.getUsername(), request.getNewPassword()));
+    public ResponseEntity<String> changePassword(
+        @RequestBody ChangePasswordRequest request,
+        Authentication authentication
+    ) {
+        String username = authentication.getName();
+        return ResponseEntity.ok(userService.changePassword(username, request.getNewPassword()));
     }
 }
