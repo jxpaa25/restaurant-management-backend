@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Custom
+/src/main/java/com/restaurant/restaurant_service/controllers/TestController.java
