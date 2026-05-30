@@ -81,6 +81,14 @@ To start the databases, run:
 3.  **Environment:** Ensure `RMS_JWT_SECRET` is set in your environment variables.
 4.  **Launch:** Run both `IdentityServiceApplication` and `RestaurantServiceApplication`.
 
+    ```bash
+    # In one terminal
+    cd identity-service && ./mvnw spring-boot:run
+
+    # In another terminal
+    cd restaurant-service && ./mvnw spring-boot:run
+    ```
+
 ## 🛡️ Security Rules
 
 - **Public:** Access to menu and registration.
