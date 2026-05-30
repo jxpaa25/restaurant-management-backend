@@ -2,6 +2,7 @@ package com.restaurant.restaurant_service.controllers;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,20 +27,26 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_WAITER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Order> createOrder(@RequestBody OrderRequest request) {
         return ResponseEntity.ok(orderService.createOrder(request));
     }    
 
     @GetMapping("/pending")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_WAITER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Order>> getPendingOrders() {
         return ResponseEntity.ok(orderService.getPendingOrders());
     }
 
     @PatchMapping("/{id}/complete")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_WAITER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Order> completeOrder(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.completeOrder(id));
+    }
+
+    @PatchMapping("/{id}/cancel")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Order> cancelOrder(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.cancelOrder(id));
     }
 }

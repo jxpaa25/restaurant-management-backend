@@ -79,8 +79,30 @@ public class OrderService {
         order.setStatus(OrderStatus.COMPLETED);
 
         RestaurantTable restaurantTable = order.getTable();
-        restaurantTable.setStatus(TableStatus.FREE);
-        restaurantTableRepository.save(restaurantTable);
+        if (restaurantTable != null) {
+            restaurantTable.setStatus(TableStatus.FREE);
+            restaurantTableRepository.save(restaurantTable);
+        }
+
+        return orderRepository.save(order);
+    }
+
+    @Transactional
+    public Order cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                        .orElseThrow(() -> new RuntimeException("Order is not found"));
+
+        if (order.getStatus() != OrderStatus.PENDING) {
+            throw new RuntimeException("You can only cancel orders with status of PENDING");
+        }
+
+        order.setStatus(OrderStatus.CANCELLED);
+
+        RestaurantTable restaurantTable = order.getTable();
+        if (restaurantTable != null) {
+            restaurantTable.setStatus(TableStatus.FREE);
+            restaurantTableRepository.save(restaurantTable);
+        }
 
         return orderRepository.save(order);
     }

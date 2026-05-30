@@ -1,4 +1,4 @@
-package com.restaurant.identity_service.services;
+package com.restaurant.common.services;
 
 import java.security.Key;
 import java.util.Collection;

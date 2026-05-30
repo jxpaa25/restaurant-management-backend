@@ -1,5 +1,6 @@
 package com.restaurant.identity_service.config;
 
+import com.restaurant.common.services.JwtService;
 import com.restaurant.identity_service.models.CustomUserDetails;
 import com.restaurant.identity_service.repositories.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class AuthConfig {
+
+    @Bean
+    public JwtService jwtService() {
+        return new JwtService();
+    }
     
     @Bean
     public UserDetailsService userDetailsService(UserRepository repository) {

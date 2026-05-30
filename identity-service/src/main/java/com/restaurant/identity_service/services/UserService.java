@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.restaurant.common.services.JwtService;
 import com.restaurant.identity_service.dto.AuthResponse;
 import com.restaurant.identity_service.dto.LoginRequest;
 import com.restaurant.identity_service.dto.UserRegistrationRequest;
