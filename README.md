@@ -1,58 +1,88 @@
-# 🍽️ Restaurant Management System (Backend)
+# Restaurant Management System (RMS) - Microservices
 
-A microservice-based Restaurant Management System built with Java Spring Boot, designed to streamline digital ordering, table management, and restaurant operations via QR-code based customer interaction.
+A professional, high-performance backend system for managing restaurant operations, built with **Spring Boot 3**, **PostgreSQL**, and a microservices architecture.
 
-# 🚀 Overview
+## 🏛️ Architecture Overview
 
-This backend system powers a modern digital menu and ordering platform where customers scan a table-specific QR code to place orders without needing to log in. Restaurant staff manage and process orders through role-based access control.
+- **Identity Service (Port 8081):** Centralized Auth provider. Manages users, credentials, and JWT generation.
+- **Restaurant Service (Port 8082):** Core business engine handling the menu, inventory, and order lifecycle.
+- **Common Library:** Shared logic for JWT validation and security filters to ensure consistency.
 
-The system follows a microservices architecture and uses PostgreSQL for persistent storage, with Docker for containerization and deployment.
+## 🚀 Key Technical Features
 
-# 👥 User Roles
+- **Method-Level Security:** Every sensitive endpoint is protected by `@PreAuthorize` based on roles.
+- **Transactional Integrity:** Orders and status changes use `@Transactional` to ensure a "all-or-nothing" execution.
+- **Global Exception Handling:** Unified error responses for better frontend integration.
+- **Soft Deletion & Status Management:** Orders are tracked through `PENDING`, `COMPLETED`, and `CANCELLED` states.
 
-Administrator
-Manages system users (Waiters & Managers)
-Assigns roles and initializes accounts
-Handles password setup flow for new users
-Manager
-Manages product catalog (food & drinks)
-Monitors orders and business performance
-Views reports and operational insights
-Waiter
-Handles incoming table orders
-Updates order status and table states
-Oversees service flow in real time
-🍽️ Core Concept
+---
 
-Customers are identified via QR codes linked to tables, each mapping to a unique table ID. No login is required for customers. Orders are created per table and tracked through a lifecycle managed by staff.
+## 🔌 API Reference
 
-# 🧾 Table & Order Workflow (Example States)
+### 🔐 Identity & Auth Service (`/api/auth`)
 
-FREE – table is available
-OCCUPIED – guests are seated
-ORDER_PLACED – customer has placed an order
-ACCEPTED – waiter has acknowledged the order
-IN_PREPARATION – kitchen is preparing items
-SERVED – order delivered
-CLOSED – table session ended
+| Endpoint           | Method | Access        | Description                   |
+| :----------------- | :----- | :------------ | :---------------------------- |
+| `/health`          | `GET`  | Public        | Check service status          |
+| `/register`        | `POST` | Public        | Register a new user           |
+| `/login`           | `POST` | Public        | Returns JWT and user details  |
+| `/change-password` | `POST` | Authenticated | Updates current user password |
 
-# 🧱 Architecture
+### 🍴 Menu Management (`/api/menu`)
 
-Microservices-based design
-Spring Boot services (Auth, Order, Menu, Table, User Management)
-API Gateway for routing requests
-PostgreSQL per service (or shared DB depending on design choice)
-Service communication via REST (optionally Kafka for async events)
+| Endpoint                   | Method   | Access    | Description                   |
+| :------------------------- | :------- | :-------- | :---------------------------- |
+| `/categories`              | `GET`    | Public    | Get all food categories       |
+| `/items`                   | `GET`    | Public    | Get full menu                 |
+| `/items/category/{id}`     | `GET`    | Public    | Filter menu by category       |
+| `/categories`              | `POST`   | **Admin** | Create new category           |
+| `/categories/{id}`         | `DELETE` | **Admin** | Remove category               |
+| `/items/{categoryId}`      | `POST`   | **Admin** | Add item to specific category |
+| `/items/{id}/availability` | `PATCH`  | **Admin** | Toggle item (In/Out of stock) |
+| `/items/{id}`              | `DELETE` | **Admin** | Remove item from menu         |
 
-# 🐳 DevOps
+### 📝 Order Lifecycle (`/api/orders`)
 
-Dockerized services
-Docker Compose for local development
-Scalable deployment-ready structure
+| Endpoint         | Method  | Access        | Description                                    |
+| :--------------- | :------ | :------------ | :--------------------------------------------- |
+| `/`              | `POST`  | Authenticated | Create new order (Auto-sets Table to OCCUPIED) |
+| `/pending`       | `GET`   | Authenticated | View all active/pending orders                 |
+| `/{id}/complete` | `PATCH` | Authenticated | Mark order as finished (Auto-frees Table)      |
+| `/{id}/cancel`   | `PATCH` | Authenticated | Cancel order (Auto-frees Table)                |
 
-# 🎯 Goals
+---
 
-Learn real-world distributed system design
-Build a production-style restaurant workflow system
-Practice Spring Boot microservices architecture
-Implement clean separation of concerns and scalable backend design
+## 🐳 Infrastructure & Docker
+
+The system uses **Docker Compose** to manage isolated PostgreSQL instances for each microservice, ensuring environment consistency and easy setup.
+
+### Run Infrastructure
+
+To start the databases, run:
+`bash docker-compose up -d`
+
+---
+
+## 🛠️ Tech Stack
+
+- **Java 21** (OpenJDK)
+- **Spring Boot 4.0.6** (Data JPA, Security, Web, Validation)
+- **PostgreSQL 15**
+- **JJWT** (Java JWT) for token management
+- **Lombok** for boilerplate reduction
+
+## 🚦 Installation & Setup
+
+1.  **Common Module:** Build the shared library first.
+    ```bash
+    cd restaurant-common && mvn clean install
+    ```
+2.  **Database Setup:** Create `auth_db` and `restaurant_db` in your PostgreSQL instance.
+3.  **Environment:** Ensure `RMS_JWT_SECRET` is set in your environment variables.
+4.  **Launch:** Run both `IdentityServiceApplication` and `RestaurantServiceApplication`.
+
+## 🛡️ Security Rules
+
+- **Public:** Access to menu and registration.
+- **Authenticated:** Waiters/Staff can create and manage orders.
+- **Admin:** Full control over menu prices, categories, and availability.
