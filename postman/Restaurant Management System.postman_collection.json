@@ -1,0 +1,2364 @@
+{
+	"info": {
+		"_postman_id": "476b5075-8608-4d77-aff8-54868d00c72a",
+		"name": "Restaurant Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13473219",
+		"_collection_link": "https://ss5555-3302.postman.co/workspace/c260440b-1a5a-4457-96ab-30e03f95a8a2/collection/13473219-476b5075-8608-4d77-aff8-54868d00c72a?action=share&source=collection_link&creator=13473219"
+	},
+	"item": [
+		{
+			"name": "01 - Identity Service",
+			"item": [
+				{
+					"name": "Healtn",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{auth_url}}/health",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "### Health Check Endpoint\n\nThis endpoint is used to check the health status of the application. It is a simple GET request that allows clients to verify if the service is running and operational.\n\n#### Request\n\n- **Method**: `GET`\n    \n- **URL**: `{{auth_url}}/health`\n    \n- **Headers**:\n    \n    - `Content-Type`: `text/plain` (optional, but can be included to specify the expected response format)\n        \n\n#### Response\n\n- **Status Code**: `200 OK`\n    \n- **Content-Type**: `text/plain`\n    \n- Everything is ok!\n    \n\nThis endpoint does not require any request body parameters."
+					},
+					"response": [
+						{
+							"name": "Healtn check",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "/health",
+									"path": [
+										"health"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "17"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 11:43:07 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "Everything is ok!"
+						}
+					]
+				},
+				{
+					"name": "Register user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"waiterB\",\n    \"password\": \"password123\",\n    \"roles\": [\"ROLE_WAITER\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_url}}/register",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"register"
+							]
+						},
+						"description": "# Register User Endpoint\n\nThis endpoint allows only authorized users with an admin role to register new users.\n\n## Request Method\n\n**POST**\n\n## Request Body\n\nThe request body must be in JSON format and include the following fields:\n\n- `username` (string): The desired username for the new user.\n    \n- `password` (string): The password for the new user.\n    \n- `roles` (array of strings): An array specifying the roles assigned to the new user (e.g., `[\"ROLE_WAITER\"]`).\n    \n\n### Example Request Body\n\n``` json\n{\n  \"username\": \"waiterB\",\n  \"password\": \"password123\",\n  \"roles\": [\"ROLE_WAITER\"]\n}\n\n ```\n\n## Response\n\n- **Success Response**:\n    \n    - **Status**: 200 OK\n        \n    - **Content**: \"User successfully created!\"\n        \n- **Error Responses**:\n    \n    - **HTTP 403 Forbidden**: Returned if the user does not have the necessary admin role to access this endpoint.\n        \n\n## Authorization\n\nOnly users with the admin role can access this endpoint to register new users."
+					},
+					"response": [
+						{
+							"name": "Unauthorized register attempt",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"waiterB\",\n    \"password\": \"password123\",\n    \"roles\": [\"ROLE_WAITER\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/register",
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 11:55:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2026-05-30T13:55:39.060291861\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/auth/register\"\n}"
+						},
+						{
+							"name": "Successful registration attempt",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"waiterB\",\n    \"password\": \"password123\",\n    \"roles\": [\"ROLE_WAITER\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{auth_url}}/register",
+									"host": [
+										"{{auth_url}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 11:56:26 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "User successfully created!"
+						}
+					]
+				},
+				{
+					"name": "User login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"waiterA\",\n    \"password\": \"waiterA123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_url}}/login",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful login attempt",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/login",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 11:43:52 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sInN1YiI6ImFkbWluIiwiaWF0IjoxNzgwMTQxNDMyLCJleHAiOjE3ODAyMjc4MzJ9.fMa_s30iMUs4Tg432CtwYjwNpMaveusJz0-k4jZ34uo\",\n    \"firstLogin\": false\n}"
+						},
+						{
+							"name": "Bad credentials",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"badpassword\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{auth_url}}/login",
+									"host": [
+										"{{auth_url}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 11:45:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2026-05-30T13:45:01.215170273\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Bad credentials\",\n    \"path\": \"/api/auth/login\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Password change",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_waiter}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newPassword\": \"waiterA321\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_url}}/change-password",
+							"host": [
+								"{{auth_url}}"
+							],
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Unauthenticated attempt",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"newPassword\": \"waiterA321\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/change-password",
+									"path": [
+										"change-password"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:08:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2026-05-30T14:08:27.061869588\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/auth/change-password\"\n}"
+						},
+						{
+							"name": "Successful password change attempt",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"newPassword\": \"waiterA321\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{auth_url}}/change-password",
+									"host": [
+										"{{auth_url}}"
+									],
+									"path": [
+										"change-password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:08:58 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "Password changed successfully."
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "02 - Menu Management",
+			"item": [
+				{
+					"name": "Admin routes",
+					"item": [
+						{
+							"name": "Create category",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Dorucak\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{menu_url}}/categories",
+									"host": [
+										"{{menu_url}}"
+									],
+									"path": [
+										"categories"
+									]
+								},
+								"description": "## Add Category\n\nThis endpoint allows you to create a new category in the menu.\n\nOnly accessible to user with ROLE_ADMIN.\n\n### Request\n\n- **Method**: POST\n    \n- **URL**: `{{menu_url}}/categories`\n    \n- **Request Body**: The request body should be in JSON format and must include the following parameter:\n    \n    - `name` (string): The name of the category you wish to add.\n        \n\n#### Example Request Body\n\n``` json\n{\n  \"name\": \"Dorucak\"\n}\n\n ```\n\n### Response\n\nUpon a successful request, the API will return a response with a status code of 200 and the following JSON structure:\n\n- `id` (integer): The unique identifier for the newly created category.\n    \n- `name` (string): The name of the category that was added.\n    \n\n#### Example Response\n\n``` json\n{\n  \"id\": 0,\n  \"name\": \"\"\n}\n\n ```\n\n### Notes\n\n- Ensure that the `name` parameter is provided in the request body, as it is required for creating a new category.\n    \n- The response will confirm the creation of the category and provide its unique identifier."
+							},
+							"response": [
+								{
+									"name": "Unauthorized attempt of creating category",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Dorucak\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "/categories",
+											"path": [
+												"categories"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 May 2026 12:18:37 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"timestamp\": \"2026-05-30T14:18:37.881297456\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/menu/categories\"\n}"
+								},
+								{
+									"name": "Successful attempt of creating category",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Dorucak\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{menu_url}}/categories",
+											"host": [
+												"{{menu_url}}"
+											],
+											"path": [
+												"categories"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 May 2026 12:19:32 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 8,\n    \"name\": \"Dorucak\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete categoty by ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{menu_url}}/categories/8",
+									"host": [
+										"{{menu_url}}"
+									],
+									"path": [
+										"categories",
+										"8"
+									]
+								},
+								"description": "## DELETE /categories/{id}\n\nThis endpoint is used to delete a specific category from the menu by its unique identifier. The `id` parameter in the URL represents the ID of the category that you wish to remove.\n\nOnly accessible to user with ROLE_ADMIN.\n\n### Request Format\n\n- **Method**: DELETE\n    \n- **URL**: `{{menu_url}}/categories/{id}`\n    \n- **Path Parameters**:\n    \n    - `id` (integer): The unique identifier of the category to be deleted.\n        \n\n### Expected Response\n\nUpon successful deletion of the category, the API will return a response indicating the result of the operation.\n\n#### Response Structure\n\n- **Status Code**:\n    \n    - `204 No Content`: Indicates that the category was successfully deleted and there is no additional content to return.\n        \n    - `404 Not Found`: Indicates that the category with the specified ID does not exist.\n        \n\n### Summary\n\nThis endpoint allows for the removal of a category from the menu by providing its ID. Ensure that the ID corresponds to an existing category to avoid a `404 Not Found` error.\n\nThis endpoint is used to delete a specific category from the menu by its unique identifier.\n\n#### Request Parameters\n\n- **id** (path parameter): The unique identifier of the category to be deleted. In this example, the ID is `8`.\n    \n\n#### Response\n\nUpon successful deletion, the API will return a confirmation response indicating that the category has been removed. If the category does not exist, an appropriate error message will be returned.\n\nMake sure to handle the response correctly to ensure that your application can manage the state of the menu categories effectively."
+							},
+							"response": [
+								{
+									"name": "Unauthorized attempt of deleting category",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "/categories/8",
+											"path": [
+												"categories",
+												"8"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 May 2026 12:23:43 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"timestamp\": \"2026-05-30T14:23:43.352301061\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/menu/categories/8\"\n}"
+								},
+								{
+									"name": "Successful attempt of deleting category",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{menu_url}}/categories/8",
+											"host": [
+												"{{menu_url}}"
+											],
+											"path": [
+												"categories",
+												"8"
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 May 2026 12:24:15 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Create menu item",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Sis cevap\",\n    \"description\": \"Sis cevap\",\n    \"price\": 950\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{menu_url}}/items/3",
+									"host": [
+										"{{menu_url}}"
+									],
+									"path": [
+										"items",
+										"3"
+									]
+								},
+								"description": "### Add Menu Item\n\nThis endpoint allows you to add a new item to the menu. It is a POST request that requires a JSON payload containing the details of the item you wish to create.\n\nOnly accessible to user with ROLE_ADMIN.\n\n#### Request\n\n- **URL**: `{{menu_url}}/items/3`\n    \n- **Method**: POST\n    \n- **Headers**:\n    \n    - `Content-Type: application/json` - Indicates that the request body is in JSON format.\n        \n\n#### Request Body\n\nThe request body should be a JSON object with the following parameters:\n\n- **name** (string, required): The name of the menu item.\n    \n- **description** (string, required): A brief description of the menu item.\n    \n- **price** (number, required): The price of the menu item.\n    \n\n**Example Request Body**:\n\n``` json\n{\n  \"name\": \"Sis cevap\",\n  \"description\": \"Sis cevap\",\n  \"price\": 950\n}\n\n ```\n\n#### Response\n\nUpon a successful request, the server will respond with a JSON object that contains the details of the newly created menu item. The structure of the response is as follows:\n\n- **id** (integer): The unique identifier for the menu item.\n    \n- **name** (string): The name of the menu item.\n    \n- **description** (string): The description of the menu item.\n    \n- **price** (number): The price of the menu item.\n    \n- **available** (boolean): Indicates whether the item is available for order.\n    \n- **category** (object): An object representing the category of the menu item, which includes:\n    \n    - **id** (integer): The unique identifier for the category.\n        \n    - **name** (string): The name of the category.\n        \n\n**Example Response**:\n\n``` json\n{\n  \"id\": 0,\n  \"name\": \"\",\n  \"description\": \"\",\n  \"price\": 0,\n  \"available\": true,\n  \"category\": {\n    \"id\": 0,\n    \"name\": \"\"\n  }\n}\n\n ```\n\nThis endpoint is essential for managing the menu items effectively, allowing for the addition of new items with their respective details."
+							},
+							"response": [
+								{
+									"name": "Unauthorized attempt of creating menu item",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Sis cevap\",\n    \"description\": \"Sis cevap\",\n    \"price\": 950\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "/items/3",
+											"path": [
+												"items",
+												"3"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 May 2026 12:27:33 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"timestamp\": \"2026-05-30T14:27:33.345330535\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/menu/items/3\"\n}"
+								},
+								{
+									"name": "Successful attempt of creating menu item",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Sis cevap\",\n    \"description\": \"Sis cevap\",\n    \"price\": 950\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{menu_url}}/items/3",
+											"host": [
+												"{{menu_url}}"
+											],
+											"path": [
+												"items",
+												"3"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 May 2026 12:28:12 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 26,\n    \"name\": \"Sis cevap\",\n    \"description\": \"Sis cevap\",\n    \"price\": 950,\n    \"available\": true,\n    \"category\": {\n        \"id\": 3,\n        \"name\": \"Roštilj\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Toggle menu item availability",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{menu_url}}/items/26/availability?available=false",
+									"host": [
+										"{{menu_url}}"
+									],
+									"path": [
+										"items",
+										"26",
+										"availability"
+									],
+									"query": [
+										{
+											"key": "available",
+											"value": "false"
+										}
+									]
+								},
+								"description": "### Update Item Availability\n\nThis endpoint allows you to update the availability status of a specific item in the menu. By sending a PATCH request to the designated URL, you can set the availability of an item to either true or false.\n\nOnly accessible to user with ROLE_ADMIN.\n\n#### Request Parameters\n\n- **URL**: `{{menu_url}}/items/{item_id}/availability`\n    \n- **Method**: PATCH\n    \n- **Query Parameter**:\n    \n    - `available` (boolean): Indicates the availability status of the item. Set to `false` to mark the item as unavailable.\n        \n\n#### Response Structure\n\nUpon a successful request, the response will return a JSON object containing the following fields:\n\n- `id` (integer): The unique identifier of the item.\n    \n- `name` (string): The name of the item.\n    \n- `description` (string): A brief description of the item.\n    \n- `price` (float): The price of the item.\n    \n- `available` (boolean): The updated availability status of the item.\n    \n- `category` (object): An object representing the category of the item, which includes:\n    \n    - `id` (integer): The unique identifier of the category.\n        \n    - `name` (string): The name of the category.\n        \n\nThis endpoint is useful for managing the availability of items in the menu dynamically.\n\nThis endpoint allows you to update the availability status of a specific menu item identified by its ID.\n\n### Request\n\n- **Method:** PATCH\n    \n- **Endpoint:** `{{menu_url}}/items/{id}/availability`\n    \n- **URL Parameters:**\n    \n    - `available` (boolean): Set to `false` to mark the item as unavailable.\n        \n\n### Example Request\n\n``` http\nPATCH {{menu_url}}/items/26/availability?available=false\n\n ```\n\n### Response\n\nUpon a successful request, the server will return a JSON object representing the updated menu item with the following structure:\n\n- **id** (integer): The unique identifier of the item.\n    \n- **name** (string): The name of the item.\n    \n- **description** (string): A brief description of the item.\n    \n- **price** (number): The price of the item.\n    \n- **available** (boolean): Indicates the current availability status of the item.\n    \n- **category** (object): An object containing details about the item's category, which includes:\n    \n    - **id** (integer): The unique identifier of the category.\n        \n    - **name** (string): The name of the category.\n        \n\n### Example Response\n\n``` json\n{\n  \"id\": 0,\n  \"name\": \"\",\n  \"description\": \"\",\n  \"price\": 0,\n  \"available\": true,\n  \"category\": {\n    \"id\": 0,\n    \"name\": \"\"\n  }\n}\n\n ```\n\n### Notes\n\n- Ensure that the item ID in the URL corresponds to an existing item in the menu.\n    \n- The `available` parameter in the query string is crucial for updating the item's status."
+							},
+							"response": [
+								{
+									"name": "Unauthorized attempt of changing menu item availability",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "/items/26/availability?available=false",
+											"path": [
+												"items",
+												"26",
+												"availability"
+											],
+											"query": [
+												{
+													"key": "available",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 May 2026 12:31:39 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"timestamp\": \"2026-05-30T14:31:39.582881267\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/menu/items/26/availability\"\n}"
+								},
+								{
+									"name": "Successful attempt of changing menu item availability",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{menu_url}}/items/26/availability?available=false",
+											"host": [
+												"{{menu_url}}"
+											],
+											"path": [
+												"items",
+												"26",
+												"availability"
+											],
+											"query": [
+												{
+													"key": "available",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 May 2026 12:32:14 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 26,\n    \"name\": \"Sis cevap\",\n    \"description\": \"Sis cevap\",\n    \"price\": 950,\n    \"available\": false,\n    \"category\": {\n        \"id\": 3,\n        \"name\": \"Roštilj\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete menu item by ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{menu_url}}/items/26",
+									"host": [
+										"{{menu_url}}"
+									],
+									"path": [
+										"items",
+										"26"
+									]
+								},
+								"description": "### DELETE /items/{id}\n\nThis endpoint is used to delete a specific item from the menu based on its unique identifier.\n\nOnly accessible to user with ROLE_ADMIN.\n\n#### Request Parameters\n\n- **Path Parameter:**\n    \n    - `id` (integer): The unique identifier of the item to be deleted. In this example, the item with ID `26` is targeted for deletion.\n        \n\n#### Response Structure\n\nUpon successful deletion, the response will typically include a confirmation message indicating that the item has been removed. The exact structure may vary, but it generally contains:\n\n- A success status (e.g., HTTP 204 No Content) indicating that the operation was successful.\n    \n\nUse this endpoint to manage menu items effectively by removing those that are no longer needed."
+							},
+							"response": [
+								{
+									"name": "Unauthorized attempt of deleting menu item",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "/items/26",
+											"path": [
+												"items",
+												"26"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 May 2026 12:34:21 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"timestamp\": \"2026-05-30T14:34:21.450479011\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/menu/items/26\"\n}"
+								},
+								{
+									"name": "Successful attempt of deleting menu item",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{menu_url}}/items/26",
+											"host": [
+												"{{menu_url}}"
+											],
+											"path": [
+												"items",
+												"26"
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 May 2026 12:34:44 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get all categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{menu_url}}/categories",
+							"host": [
+								"{{menu_url}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get categories successful",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "/categories",
+									"path": [
+										"categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:13:16 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Predjela\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Glavna jela\"\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Roštilj\"\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Salate\"\n    },\n    {\n        \"id\": 5,\n        \"name\": \"Poslastice\"\n    },\n    {\n        \"id\": 6,\n        \"name\": \"Pića\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get all menu items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{menu_url}}/items",
+							"host": [
+								"{{menu_url}}"
+							],
+							"path": [
+								"items"
+							]
+						},
+						"description": "## Get Menu Items\n\nThis endpoint retrieves a list of menu items available in the system. It provides essential details for each item, including its identification, name, description, price, availability status, and category information.\n\n### Request\n\n- **Method**: GET\n    \n- **URL**: `{{menu_url}}/items`\n    \n\n### Response\n\n- **Status Code**: 200 OK\n    \n- **Content-Type**: application/json\n    \n\n### Response Format\n\nThe response will be a JSON array containing objects with the following structure:\n\n``` json\n[\n    {\n        \"id\": 0,\n        \"name\": \"\",\n        \"description\": \"\",\n        \"price\": 0,\n        \"available\": true,\n        \"category\": {\n            \"id\": 0,\n            \"name\": \"\"\n        }\n    }\n]\n\n ```\n\n#### Fields Description:\n\n- **id**: (integer) Unique identifier for the menu item.\n    \n- **name**: (string) Name of the menu item.\n    \n- **description**: (string) Description of the menu item.\n    \n- **price**: (number) Price of the menu item.\n    \n- **available**: (boolean) Indicates if the item is currently available.\n    \n- **category**: (object) Contains information about the category of the menu item.\n    \n    - **id**: (integer) Unique identifier for the category.\n        \n    - **name**: (string) Name of the category.\n        \n\nThis endpoint does not require any request body as it is a simple GET request to fetch data."
+					},
+					"response": [
+						{
+							"name": "Get menu items successful",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "/items",
+									"path": [
+										"items"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:14:40 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Brusketi sa paradajzom\",\n        \"description\": \"Tostiran hleb, maslinovo ulje, paradajz, bosiljak\",\n        \"price\": 450,\n        \"available\": true,\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Predjela\"\n        }\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Biftek u sosu od bibera\",\n        \"description\": \"Premium juneći biftek, zeleni biber, prilog krompir\",\n        \"price\": 2400,\n        \"available\": true,\n        \"category\": {\n            \"id\": 2,\n            \"name\": \"Glavna jela\"\n        }\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Ćevapi (10 komada)\",\n        \"description\": \"Tradicionalni juneći ćevapi u lepinji sa lukom\",\n        \"price\": 950,\n        \"available\": true,\n        \"category\": {\n            \"id\": 3,\n            \"name\": \"Roštilj\"\n        }\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Šopska salata\",\n        \"description\": \"Paradajz, krastavac, luk, domaći sir\",\n        \"price\": 380,\n        \"available\": true,\n        \"category\": {\n            \"id\": 4,\n            \"name\": \"Salate\"\n        }\n    },\n    {\n        \"id\": 5,\n        \"name\": \"Čokoladni sufle\",\n        \"description\": \"Topli kolač sa crnom čokoladom i sladoledom\",\n        \"price\": 550,\n        \"available\": true,\n        \"category\": {\n            \"id\": 5,\n            \"name\": \"Poslastice\"\n        }\n    },\n    {\n        \"id\": 6,\n        \"name\": \"Domaća kafa\",\n        \"description\": \"Sveže mlevena kafa\",\n        \"price\": 180,\n        \"available\": true,\n        \"category\": {\n            \"id\": 6,\n            \"name\": \"Pića\"\n        }\n    },\n    {\n        \"id\": 7,\n        \"name\": \"Daska sireva\",\n        \"description\": \"Selekcija domaćih sireva sa orasima i medom\",\n        \"price\": 1200,\n        \"available\": true,\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Predjela\"\n        }\n    },\n    {\n        \"id\": 8,\n        \"name\": \"Goveđi carpaccio\",\n        \"description\": \"Tanki listovi goveđeg filea na rukoli sa parmezanom\",\n        \"price\": 1450,\n        \"available\": true,\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Predjela\"\n        }\n    },\n    {\n        \"id\": 9,\n        \"name\": \"Grilovani mirodžijski sir\",\n        \"description\": \"Grilovani sir sa džemom od luka\",\n        \"price\": 850,\n        \"available\": true,\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Predjela\"\n        }\n    },\n    {\n        \"id\": 10,\n        \"name\": \"Piletina u susamu\",\n        \"description\": \"Pohovani pileći file sa susamom i tartar sosom\",\n        \"price\": 980,\n        \"available\": true,\n        \"category\": {\n            \"id\": 2,\n            \"name\": \"Glavna jela\"\n        }\n    },\n    {\n        \"id\": 11,\n        \"name\": \"Svinjski file u sosu od pečuraka\",\n        \"description\": \"Svinjski file sa mešavinom šumskih pečuraka\",\n        \"price\": 1350,\n        \"available\": true,\n        \"category\": {\n            \"id\": 2,\n            \"name\": \"Glavna jela\"\n        }\n    },\n    {\n        \"id\": 12,\n        \"name\": \"Rižoto sa povrćem\",\n        \"description\": \"Kremasti rižoto sa sezonskim povrćem\",\n        \"price\": 820,\n        \"available\": true,\n        \"category\": {\n            \"id\": 2,\n            \"name\": \"Glavna jela\"\n        }\n    },\n    {\n        \"id\": 13,\n        \"name\": \"Uštipci sa sirom\",\n        \"description\": \"Pikantni uštipci od junećeg mesa sa kačkavaljem i slaninom\",\n        \"price\": 1050,\n        \"available\": true,\n        \"category\": {\n            \"id\": 3,\n            \"name\": \"Roštilj\"\n        }\n    },\n    {\n        \"id\": 14,\n        \"name\": \"Dimljena vešalica\",\n        \"description\": \"Dimljeni svinjski kare na žaru\",\n        \"price\": 1150,\n        \"available\": true,\n        \"category\": {\n            \"id\": 3,\n            \"name\": \"Roštilj\"\n        }\n    },\n    {\n        \"id\": 15,\n        \"name\": \"Mešano meso\",\n        \"description\": \"Selekcija roštilja: ćevapi, kobasica, pljeskavica, piletina\",\n        \"price\": 1850,\n        \"available\": true,\n        \"category\": {\n            \"id\": 3,\n            \"name\": \"Roštilj\"\n        }\n    },\n    {\n        \"id\": 16,\n        \"name\": \"Cezar salata\",\n        \"description\": \"Piletina, slanina, krutoni, dresing, parmezan\",\n        \"price\": 890,\n        \"available\": true,\n        \"category\": {\n            \"id\": 4,\n            \"name\": \"Salate\"\n        }\n    },\n    {\n        \"id\": 17,\n        \"name\": \"Salata sa tunjevinom\",\n        \"description\": \"Tunjevina, kukuruz, crveni luk, masline, zelena salata\",\n        \"price\": 750,\n        \"available\": true,\n        \"category\": {\n            \"id\": 4,\n            \"name\": \"Salate\"\n        }\n    },\n    {\n        \"id\": 18,\n        \"name\": \"Vitaminska salata\",\n        \"description\": \"Sveža rendana šargarepa, cvekla, jabuka, dresing\",\n        \"price\": 450,\n        \"available\": true,\n        \"category\": {\n            \"id\": 4,\n            \"name\": \"Salate\"\n        }\n    },\n    {\n        \"id\": 19,\n        \"name\": \"Palačinke sa eurokremom i plazmom\",\n        \"description\": \"Dve bogato filovane domaće palačinke\",\n        \"price\": 420,\n        \"available\": true,\n        \"category\": {\n            \"id\": 5,\n            \"name\": \"Poslastice\"\n        }\n    },\n    {\n        \"id\": 20,\n        \"name\": \"Tufahije\",\n        \"description\": \"Tradicionalna bosanska poslastica od jabuke i oraha\",\n        \"price\": 380,\n        \"available\": true,\n        \"category\": {\n            \"id\": 5,\n            \"name\": \"Poslastice\"\n        }\n    },\n    {\n        \"id\": 21,\n        \"name\": \"Sladoled kup\",\n        \"description\": \"Tri kugle sladoleda po izboru sa prelivom\",\n        \"price\": 450,\n        \"available\": true,\n        \"category\": {\n            \"id\": 5,\n            \"name\": \"Poslastice\"\n        }\n    },\n    {\n        \"id\": 22,\n        \"name\": \"Gazirani sokovi 0.25l\",\n        \"description\": \"Coca-Cola, Fanta, Sprite\",\n        \"price\": 240,\n        \"available\": true,\n        \"category\": {\n            \"id\": 6,\n            \"name\": \"Pića\"\n        }\n    },\n    {\n        \"id\": 23,\n        \"name\": \"Domaće vino 0.7l\",\n        \"description\": \"Kvalitetno crno ili belo kućno vino\",\n        \"price\": 1800,\n        \"available\": true,\n        \"category\": {\n            \"id\": 6,\n            \"name\": \"Pića\"\n        }\n    },\n    {\n        \"id\": 24,\n        \"name\": \"Rakija Šljiva 0.05l\",\n        \"description\": \"Domaća stara šljiva, 40% alkohola\",\n        \"price\": 280,\n        \"available\": true,\n        \"category\": {\n            \"id\": 6,\n            \"name\": \"Pića\"\n        }\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get items by category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{menu_url}}/items/category/3",
+							"host": [
+								"{{menu_url}}"
+							],
+							"path": [
+								"items",
+								"category",
+								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get menu items by category successful",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "/items/category/3",
+									"path": [
+										"items",
+										"category",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:16:15 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 3,\n        \"name\": \"Ćevapi (10 komada)\",\n        \"description\": \"Tradicionalni juneći ćevapi u lepinji sa lukom\",\n        \"price\": 950,\n        \"available\": true,\n        \"category\": {\n            \"id\": 3,\n            \"name\": \"Roštilj\"\n        }\n    },\n    {\n        \"id\": 13,\n        \"name\": \"Uštipci sa sirom\",\n        \"description\": \"Pikantni uštipci od junećeg mesa sa kačkavaljem i slaninom\",\n        \"price\": 1050,\n        \"available\": true,\n        \"category\": {\n            \"id\": 3,\n            \"name\": \"Roštilj\"\n        }\n    },\n    {\n        \"id\": 14,\n        \"name\": \"Dimljena vešalica\",\n        \"description\": \"Dimljeni svinjski kare na žaru\",\n        \"price\": 1150,\n        \"available\": true,\n        \"category\": {\n            \"id\": 3,\n            \"name\": \"Roštilj\"\n        }\n    },\n    {\n        \"id\": 15,\n        \"name\": \"Mešano meso\",\n        \"description\": \"Selekcija roštilja: ćevapi, kobasica, pljeskavica, piletina\",\n        \"price\": 1850,\n        \"available\": true,\n        \"category\": {\n            \"id\": 3,\n            \"name\": \"Roštilj\"\n        }\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "03 - Orders",
+			"item": [
+				{
+					"name": "Create order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_waiter}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tableNumber\": 2,\n    \"items\": [\n        {\n            \"menuItemId\": 4,\n            \"quantity\": 2\n        },\n        {\n            \"menuItemId\": 22,\n            \"quantity\": 2\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{orders_url}}",
+							"host": [
+								"{{orders_url}}"
+							]
+						},
+						"description": "## Create Order\n\nThis endpoint allows you to create a new order in the system. By sending a POST request to the specified URL, you can submit details about the order, including the table number and the items being ordered.\n\n### Request\n\n**Method:** POST  \n**URL:** `{{orders_url}}`\n\n**Request Body Format:**  \nThe request body should be in JSON format and include the following parameters:\n\n- `tableNumber` (integer): The number of the table for which the order is being placed.\n    \n- `items` (array): A list of items being ordered. Each item should contain:\n    \n    - `menuItemId` (integer): The ID of the menu item being ordered.\n        \n    - `quantity` (integer): The number of units of the menu item being ordered.\n        \n\n**Example Request Body:**\n\n``` json\n{\n  \"tableNumber\": 2,\n  \"items\": [\n    {\n      \"menuItemId\": 4,\n      \"quantity\": 2\n    }\n  ]\n}\n\n ```\n\n### Response\n\nOn a successful request, the server responds with a 200 status code and a JSON object containing the details of the created order. The structure of the response is as follows:\n\n- `createdAt` (string): The timestamp when the order was created.\n    \n- `id` (integer): The unique identifier for the order.\n    \n- `items` (array): A list of items included in the order, where each item has:\n    \n    - `id` (integer): The unique identifier for the item in the order.\n        \n    - `menuItem` (object): Details about the menu item, including:\n        \n        - `id` (integer): The unique identifier of the menu item.\n            \n        - `name` (string): The name of the menu item.\n            \n        - `description` (string): A description of the menu item.\n            \n        - `price` (number): The price of the menu item.\n            \n        - `available` (boolean): Availability status of the menu item.\n            \n        - `category` (object): The category of the menu item, containing:\n            \n            - `id` (integer): The unique identifier for the category.\n                \n            - `name` (string): The name of the category.\n                \n    - `quantity` (integer): The quantity of the menu item ordered.\n        \n- `status` (string): The current status of the order.\n    \n- `table` (object): Details about the table associated with the order, including:\n    \n    - `id` (integer): The unique identifier for the table.\n        \n    - `tableNumber` (integer): The number of the table.\n        \n    - `status` (string): The current status of the table.\n        \n- `totalPrice` (number): The total price of the order.\n    \n- `waiterUsername` (string): The username of the waiter handling the order.\n    \n\n### Example Response:\n\n``` json\n{\n  \"createdAt\": \"\",\n  \"id\": 0,\n  \"items\": [\n    {\n      \"id\": 0,\n      \"menuItem\": {\n        \"id\": 0,\n        \"name\": \"\",\n        \"description\": \"\",\n        \"price\": 0,\n        \"available\": true,\n        \"category\": {\n          \"id\": 0,\n          \"name\": \"\"\n        }\n      },\n      \"quantity\": 0\n    }\n  ],\n  \"status\": \"\",\n  \"table\": {\n    \"id\": 0,\n    \"tableNumber\": 0,\n    \"status\": \"\"\n  },\n  \"totalPrice\": 0,\n  \"waiterUsername\": \"\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Unauthenticated attempt of creating order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"tableNumber\": 2,\n    \"items\": [\n        {\n            \"menuItemId\": 4,\n            \"quantity\": 2\n        },\n        {\n            \"menuItemId\": 22,\n            \"quantity\": 2\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": ""
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:46:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2026-05-30T14:46:46.463637674\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/orders\"\n}"
+						},
+						{
+							"name": "Successful attempt of creating order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"tableNumber\": 2,\n    \"items\": [\n        {\n            \"menuItemId\": 4,\n            \"quantity\": 2\n        },\n        {\n            \"menuItemId\": 22,\n            \"quantity\": 2\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{orders_url}}",
+									"host": [
+										"{{orders_url}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:47:24 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"createdAt\": \"2026-05-30T14:47:24.030721919\",\n    \"id\": 4,\n    \"items\": [\n        {\n            \"id\": 10,\n            \"menuItem\": {\n                \"id\": 4,\n                \"name\": \"Šopska salata\",\n                \"description\": \"Paradajz, krastavac, luk, domaći sir\",\n                \"price\": 380,\n                \"available\": true,\n                \"category\": {\n                    \"id\": 4,\n                    \"name\": \"Salate\"\n                }\n            },\n            \"quantity\": 2\n        },\n        {\n            \"id\": 11,\n            \"menuItem\": {\n                \"id\": 22,\n                \"name\": \"Gazirani sokovi 0.25l\",\n                \"description\": \"Coca-Cola, Fanta, Sprite\",\n                \"price\": 240,\n                \"available\": true,\n                \"category\": {\n                    \"id\": 6,\n                    \"name\": \"Pića\"\n                }\n            },\n            \"quantity\": 2\n        }\n    ],\n    \"status\": \"PENDING\",\n    \"table\": {\n        \"id\": 2,\n        \"tableNumber\": 2,\n        \"status\": \"OCCUPIED\"\n    },\n    \"totalPrice\": 1240,\n    \"waiterUsername\": \"waiterA\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get pending orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_waiter}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{orders_url}}/pending",
+							"host": [
+								"{{orders_url}}"
+							],
+							"path": [
+								"pending"
+							]
+						},
+						"description": "## Get Pending Orders\n\nThis endpoint retrieves a list of pending orders from the specified orders URL. It is useful for checking the current status of orders that have not yet been completed.\n\n### Request\n\n- **Method**: GET\n    \n- **Endpoint**: `{{orders_url}}/pending`\n    \n\n### Expected Headers\n\n- **Content-Type**: application/json\n    \n\n### Response\n\nOn a successful request, the API responds with a status code of `200` and returns a JSON array containing the pending orders. Each order object in the response has the following structure:\n\n- **createdAt**: (string) The timestamp when the order was created.\n    \n- **id**: (integer) The unique identifier for the order.\n    \n- **items**: (array) A list of items included in the order, where each item has:\n    \n    - **id**: (integer) The unique identifier for the menu item.\n        \n    - **menuItem**: (object) Details of the menu item, including:\n        \n        - **id**: (integer) The unique identifier for the menu item.\n            \n        - **name**: (string) The name of the menu item.\n            \n        - **description**: (string) A brief description of the menu item.\n            \n        - **price**: (integer) The price of the menu item.\n            \n        - **available**: (boolean) Indicates if the menu item is currently available.\n            \n        - **category**: (object) The category of the menu item, including:\n            \n            - **id**: (integer) The unique identifier for the category.\n                \n            - **name**: (string) The name of the category.\n                \n    - **quantity**: (integer) The quantity of this item in the order.\n        \n- **status**: (string) The current status of the order.\n    \n- **table**: (object) Details about the table associated with the order, including:\n    \n    - **id**: (integer) The unique identifier for the table.\n        \n    - **tableNumber**: (integer) The number assigned to the table.\n        \n    - **status**: (string) The current status of the table.\n        \n- **totalPrice**: (integer) The total price of the order.\n    \n- **waiterUsername**: (string) The username of the waiter serving the order.\n    \n\nThis structure allows clients to easily parse the pending orders and their details for further processing or display."
+					},
+					"response": [
+						{
+							"name": "Unauthenticated attempt of receiving pending orders",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "/pending",
+									"path": [
+										"pending"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:49:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2026-05-30T14:49:02.930856342\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/orders/pending\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Complete order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_waiter}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{orders_url}}/4/complete",
+							"host": [
+								"{{orders_url}}"
+							],
+							"path": [
+								"4",
+								"complete"
+							]
+						},
+						"description": "### PATCH /complete\n\nThis endpoint is used to mark an order as complete in the system. By sending a PATCH request to the specified order URL, you can update the status of the order identified by its unique ID.\n\n#### Request Body\n\nThe request does not require a body, as this endpoint is primarily focused on updating the status of the order.\n\n#### Response Structure\n\nUpon a successful request, the server responds with a status code of 200 and a JSON object containing the details of the completed order. The response body includes the following fields:\n\n- **createdAt**: A string indicating when the order was created.\n    \n- **id**: An integer representing the unique identifier of the order.\n    \n- **items**: An array of objects, each representing an item in the order. Each item object contains:\n    \n    - **id**: An integer representing the unique identifier of the menu item.\n        \n    - **menuItem**: An object containing details about the menu item, including:\n        \n        - **id**: An integer representing the unique identifier of the menu item.\n            \n        - **name**: A string representing the name of the menu item.\n            \n        - **description**: A string providing a description of the menu item.\n            \n        - **price**: A number indicating the price of the menu item.\n            \n        - **available**: A boolean indicating whether the menu item is available.\n            \n        - **category**: An object representing the category of the menu item, which includes:\n            \n            - **id**: An integer representing the unique identifier of the category.\n                \n            - **name**: A string representing the name of the category.\n                \n    - **quantity**: An integer indicating the quantity of the menu item ordered.\n        \n- **status**: A string representing the current status of the order.\n    \n- **table**: An object containing details about the table associated with the order, including:\n    \n    - **id**: An integer representing the unique identifier of the table.\n        \n    - **tableNumber**: An integer indicating the table number.\n        \n    - **status**: A string representing the current status of the table.\n        \n- **totalPrice**: A number indicating the total price of the order.\n    \n- **waiterUsername**: A string representing the username of the waiter handling the order.\n    \n\nThis endpoint is essential for updating the order status and retrieving the current state of the order after it has been marked as complete."
+					},
+					"response": [
+						{
+							"name": "Unauthenticated attempt of completing order",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "/4/complete",
+									"path": [
+										"4",
+										"complete"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:51:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2026-05-30T14:51:32.40981929\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/orders/4/complete\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cancel order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_waiter}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{orders_url}}/3/cancel",
+							"host": [
+								"{{orders_url}}"
+							],
+							"path": [
+								"3",
+								"cancel"
+							]
+						},
+						"description": "### Cancel Order Endpoint\n\nThis endpoint allows users to cancel an existing order by specifying the order ID in the URL. The request is made using the HTTP PATCH method.\n\n#### Request URL\n\n`PATCH {{orders_url}}/3/cancel`\n\n#### Request Parameters\n\n- **Order ID**: The ID of the order to be canceled is specified in the URL path. In this example, the order ID is `3`.\n    \n\n#### Expected Response\n\n- **Success Response**: On a successful cancellation, the API will return a JSON object containing details about the order, including:\n    \n    - `createdAt`: The timestamp when the order was created.\n        \n    - `id`: The unique identifier of the order.\n        \n    - `items`: An array of items in the order, where each item includes:\n        \n        - `id`: The unique identifier of the menu item.\n            \n        - `menuItem`: An object containing details about the menu item, including:\n            \n            - `id`: The unique identifier of the menu item.\n                \n            - `name`: The name of the menu item.\n                \n            - `description`: A brief description of the menu item.\n                \n            - `price`: The price of the menu item.\n                \n            - `available`: A boolean indicating if the menu item is available.\n                \n            - `category`: An object containing the category details, including:\n                \n                - `id`: The unique identifier of the category.\n                    \n                - `name`: The name of the category.\n                    \n        - `quantity`: The quantity of the menu item ordered.\n            \n    - `status`: The current status of the order.\n        \n    - `table`: An object containing details about the table associated with the order, including:\n        \n        - `id`: The unique identifier of the table.\n            \n        - `tableNumber`: The number of the table.\n            \n        - `status`: The current status of the table.\n            \n    - `totalPrice`: The total price of the order.\n        \n    - `waiterUsername`: The username of the waiter serving the order.\n        \n- **Error Response**: If the cancellation fails, the API may return a response with a status code of `400`, indicating a bad request. The response will contain a JSON object with fields such as:\n    \n    - `timestamp`: The time when the error occurred.\n        \n    - `status`: The HTTP status code.\n        \n    - `error`: A brief error description.\n        \n    - `message`: A detailed message about the error.\n        \n    - `path`: The path of the request.\n        \n\n#### Notes\n\n- Ensure that the order ID provided in the URL corresponds to an existing order that can be canceled.\n    \n- Check the response for any error messages to troubleshoot issues with the cancellation request."
+					},
+					"response": [
+						{
+							"name": "Unauthenticated attempt of canceling order",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "/3/cancel",
+									"path": [
+										"3",
+										"cancel"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:52:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2026-05-30T14:52:57.300370042\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"Access Denied\",\n    \"path\": \"/api/orders/3/cancel\"\n}"
+						},
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{orders_url}}/3/cancel",
+									"host": [
+										"{{orders_url}}"
+									],
+									"path": [
+										"3",
+										"cancel"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:53:22 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"createdAt\": \"2026-05-30T12:52:34.703966\",\n    \"id\": 3,\n    \"items\": [\n        {\n            \"id\": 8,\n            \"menuItem\": {\n                \"id\": 2,\n                \"name\": \"Biftek u sosu od bibera\",\n                \"description\": \"Premium juneći biftek, zeleni biber, prilog krompir\",\n                \"price\": 2400,\n                \"available\": true,\n                \"category\": {\n                    \"id\": 2,\n                    \"name\": \"Glavna jela\"\n                }\n            },\n            \"quantity\": 1\n        },\n        {\n            \"id\": 9,\n            \"menuItem\": {\n                \"id\": 8,\n                \"name\": \"Goveđi carpaccio\",\n                \"description\": \"Tanki listovi goveđeg filea na rukoli sa parmezanom\",\n                \"price\": 1450,\n                \"available\": true,\n                \"category\": {\n                    \"id\": 1,\n                    \"name\": \"Predjela\"\n                }\n            },\n            \"quantity\": 1\n        },\n        {\n            \"id\": 7,\n            \"menuItem\": {\n                \"id\": 21,\n                \"name\": \"Sladoled kup\",\n                \"description\": \"Tri kugle sladoleda po izboru sa prelivom\",\n                \"price\": 450,\n                \"available\": true,\n                \"category\": {\n                    \"id\": 5,\n                    \"name\": \"Poslastice\"\n                }\n            },\n            \"quantity\": 2\n        }\n    ],\n    \"status\": \"CANCELLED\",\n    \"table\": {\n        \"id\": 3,\n        \"tableNumber\": 3,\n        \"status\": \"FREE\"\n    },\n    \"totalPrice\": 4750,\n    \"waiterUsername\": \"waiterA\"\n}"
+						},
+						{
+							"name": "Unsuccessful attempt of canceling order that is not PENDING",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{orders_url}}/3/cancel",
+									"host": [
+										"{{orders_url}}"
+									],
+									"path": [
+										"3",
+										"cancel"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 May 2026 12:54:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"timestamp\": \"2026-05-30T14:54:03.053396112\",\n    \"status\": 400,\n    \"error\": \"Business Logic Error\",\n    \"message\": \"You can only cancel orders with status of PENDING\",\n    \"path\": \"/api/orders/3/cancel\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

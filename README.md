@@ -17,6 +17,94 @@ A professional, high-performance backend system for managing restaurant operatio
 
 ---
 
+## 📖 API Documentation
+
+Detailed API documentation, including request examples, headers, and expected responses, can be found here:
+
+👉 **[Postman Public Documentation](https://documenter.getpostman.com/view/13473219/2sBXwntCWC)**
+Postman collection is available in /postman folder. Import it to test the API locally.
+
+---
+
+### 🗄️ Database Schema
+
+#### 🔐 Identity Service (`auth_db`)
+
+The Identity service manages user authentication and authorization using a relational Many-to-Many model.
+
+```mermaid
+erDiagram
+    USERS ||--o{ USER_ROLES : "has"
+    ROLES ||--o{ USER_ROLES : "assigned_to"
+
+    USERS {
+        long id PK
+        string username "UNIQUE, NOT NULL"
+        string password "NOT NULL"
+        boolean is_first_login "DEFAULT true"
+    }
+
+    ROLES {
+        long id PK
+        string name "UNIQUE, NOT NULL (e.g. ROLE_ADMIN)"
+    }
+
+    USER_ROLES {
+        long user_id FK
+        long role_id FK
+    }
+```
+
+#### 🍴 Restaurant Service (`restaurant_db`)
+
+The Restaurant service manages the core business data, tracking the relationship between the menu, physical tables, and customer orders.
+
+```mermaid
+erDiagram
+    CATEGORIES ||--o{ MENU_ITEMS : "contains"
+    RESTAURANT_TABLES ||--o{ ORDERS : "assigned to"
+    ORDERS ||--o{ ORDER_ITEMS : "includes"
+    MENU_ITEMS ||--o{ ORDER_ITEMS : "ordered as"
+
+    CATEGORIES {
+        long id PK
+        string name "UNIQUE, NOT NULL"
+    }
+
+    MENU_ITEMS {
+        long id PK
+        string name "NOT NULL"
+        string description
+        double price "NOT NULL"
+        boolean available "DEFAULT true"
+        long category_id FK
+    }
+
+    RESTAURANT_TABLES {
+        long id PK
+        int table_number "UNIQUE, NOT NULL"
+        string status "FREE / OCCUPIED"
+    }
+
+    ORDERS {
+        long id PK
+        string waiter_username
+        long table_id FK
+        double total_price
+        datetime created_at
+        string status "PENDING / COMPLETED / CANCELLED"
+    }
+
+    ORDER_ITEMS {
+        long id PK
+        long order_id FK
+        long menu_item_id FK
+        int quantity
+    }
+```
+
+---
+
 ## 🔌 API Reference
 
 ### 🔐 Identity & Auth Service (`/api/auth`)
@@ -24,7 +112,7 @@ A professional, high-performance backend system for managing restaurant operatio
 | Endpoint           | Method | Access        | Description                   |
 | :----------------- | :----- | :------------ | :---------------------------- |
 | `/health`          | `GET`  | Public        | Check service status          |
-| `/register`        | `POST` | Public        | Register a new user           |
+| `/register`        | `POST` | **Admin**     | Register a new user           |
 | `/login`           | `POST` | Public        | Returns JWT and user details  |
 | `/change-password` | `POST` | Authenticated | Updates current user password |
 
@@ -59,38 +147,7 @@ The system uses **Docker Compose** to manage isolated PostgreSQL instances for e
 ### Run Infrastructure
 
 To start the databases, run:
-`bash docker-compose up -d`
 
----
-
-## 🛠️ Tech Stack
-
-- **Java 21** (OpenJDK)
-- **Spring Boot 4.0.6** (Data JPA, Security, Web, Validation)
-- **PostgreSQL 15**
-- **JJWT** (Java JWT) for token management
-- **Lombok** for boilerplate reduction
-
-## 🚦 Installation & Setup
-
-1.  **Common Module:** Build the shared library first.
-    ```bash
-    cd restaurant-common && mvn clean install
-    ```
-2.  **Database Setup:** Create `auth_db` and `restaurant_db` in your PostgreSQL instance.
-3.  **Environment:** Ensure `RMS_JWT_SECRET` is set in your environment variables.
-4.  **Launch:** Run both `IdentityServiceApplication` and `RestaurantServiceApplication`.
-
-    ```bash
-    # In one terminal
-    cd identity-service && ./mvnw spring-boot:run
-
-    # In another terminal
-    cd restaurant-service && ./mvnw spring-boot:run
-    ```
-
-## 🛡️ Security Rules
-
-- **Public:** Access to menu and registration.
-- **Authenticated:** Waiters/Staff can create and manage orders.
-- **Admin:** Full control over menu prices, categories, and availability.
+```bash
+docker-compose up -d
+```

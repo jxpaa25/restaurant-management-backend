@@ -1,8 +1,10 @@
 package com.restaurant.identity_service.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> register(@RequestBody UserRegistrationRequest request) {
         return ResponseEntity.ok(userService.registerUser(request));
     }
@@ -39,7 +42,8 @@ public class AuthController {
         return ResponseEntity.ok(userService.login(request));
     }
 
-    @PostMapping("/change-password")
+    @PatchMapping("/change-password")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> changePassword(
         @RequestBody ChangePasswordRequest request,
         Authentication authentication
