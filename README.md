@@ -1,6 +1,6 @@
 # Restaurant Management System (RMS) - Microservices
 
-A professional, high-performance backend system for managing restaurant operations, built with **Spring Boot 3**, **PostgreSQL**, and a microservices architecture.
+A professional, high-performance backend system for managing restaurant operations, built with **Spring Boot 4**, **PostgreSQL**, and a microservices architecture.
 
 ## 🏛️ Architecture Overview
 
